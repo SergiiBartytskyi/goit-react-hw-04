@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import SearchBar from "../SearchBar/SearchBar";
 
-function App() {
-  const [count, setCount] = useState(0)
+// import { fetchPicturesWithTopic } from "../../unsplash-api";
+// import css from './App.module.css'
+
+export default function App() {
+  const [articles, setArticles] = useState([]);
+
+  // useEffect(() => {
+  //   async function fetchArticles() {
+  //     try {
+  //       // setLoading(true);
+  //       // 2. Використовуємо HTTP-функцію
+  //       const data = await fetchPicturesWithTopic("cat");
+  //       setArticles(data);
+  //       console.log(articles);
+  //     } catch (error) {
+  //       // setError(true);
+  //     } finally {
+  //       // setLoading(false);
+  //     }
+  //   }
+
+  //   fetchArticles();
+  // }, [articles]);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {/* {loading && <p>Loading data, please wait...</p>} */}
+      {/* {error && (
+        <p>Whoops, something went wrong! Please try reloading this page!</p>
+      )} */}
+      {/* {articles.length > 0 && <ArticleList items={articles} />} */}
+      <SearchBar />
     </>
-  )
+  );
 }
-
-export default App

@@ -10,16 +10,19 @@ const instance = axios.create({
   },
 });
 
-export const fetchPicturesWithTopic = async (topic) => {
-  const response = (await instance.get(`/search/photos?query=${topic}`)).data;
-  return response;
+export const fetchPicturesWithQuery = async (query, page = 1) => {
+  const response = await instance.get(`/search/photos`, {
+    params: {
+      query: query,
+      orientation: "landscape",
+      page,
+      per_page: 20,
+    },
+  });
+
+  return {
+    results: response.data.results,
+    total: response.data.total,
+    total_pages: response.data.total_pages,
+  };
 };
-// export const fetchPicturesWithTopic = async (topic) => {
-//   const response = await axios.get(`/search/photos?query=${topic}`, {
-//     headers: {
-//       "Accept-Version": "v1",
-//       Authorization: "Client-ID ShVR3i6LdoWAo4L9g8AWxgR8TYEwTxSDCpkOos3heI0",
-//     },
-//   });
-//   return response.data.hits;
-// };

@@ -2,14 +2,19 @@ import { Formik, Form, Field } from "formik";
 import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
 
-export default function SearchBar() {
+export default function SearchBar({ onSearch }) {
   const handleSubmit = (values, actions) => {
-    console.log(values);
+    // console.log(values);
+
     if (!values.query) {
       toast.error("Enter a query before!");
+      return;
     }
+    onSearch(values.query);
+
     actions.resetForm();
   };
+
   return (
     <header className={css.container}>
       <Formik initialValues={{ query: "" }} onSubmit={handleSubmit}>

@@ -1,38 +1,62 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
+import ImageGallery from "../ImageGallery/ImageGallery";
 
-// import { fetchPicturesWithTopic } from "../../unsplash-api";
+import { fetchPicturesWithQuery } from "../../unsplash-api";
+import Loader from "../Loader/Loader";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 // import css from './App.module.css'
 
 export default function App() {
-  const [articles, setArticles] = useState([]);
+  const [pictures, setPictures] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [page, setPage] = useState(1);
+  const [query, setQuery] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
 
-  // useEffect(() => {
-  //   async function fetchArticles() {
-  //     try {
-  //       // setLoading(true);
-  //       // 2. Використовуємо HTTP-функцію
-  //       const data = await fetchPicturesWithTopic("cat");
-  //       setArticles(data);
-  //       console.log(articles);
-  //     } catch (error) {
-  //       // setError(true);
-  //     } finally {
-  //       // setLoading(false);
-  //     }
-  //   }
+  const handleSearch = async (newQuery) => {
+    try {
+      setPictures([]);
+      setError(false);
+      setLoading(true);
+      setQuery(newQuery);
+      setPage(1);
+      const data = await fetchPicturesWithQuery(newQuery, 1);
+      setPictures(data.results);
+      setTotalPages(data.total_pages);
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  //   fetchArticles();
-  // }, [articles]);
+  const loadMorePictures = async () => {
+    try {
+      setLoading(true);
+      const nextPage = page + 1;
+      const data = await fetchPicturesWithQuery(query, nextPage);
+      setPictures((prevPictures) => [...prevPictures, ...data.results]);
+      setPage(nextPage);
+    } catch (error) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const shouldShowLoadMore =
+    pictures.length > 0 && page < totalPages && !loading;
 
   return (
     <>
-      {/* {loading && <p>Loading data, please wait...</p>} */}
-      {/* {error && (
-        <p>Whoops, something went wrong! Please try reloading this page!</p>
-      )} */}
-      {/* {articles.length > 0 && <ArticleList items={articles} />} */}
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
+      {pictures.length > 0 && <ImageGallery items={pictures} />}
+      {shouldShowLoadMore && <LoadMoreBtn onClick={loadMorePictures} />}
+      {error && <ErrorMessage />}
+      {loading && <Loader />}
     </>
   );
 }

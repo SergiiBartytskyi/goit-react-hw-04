@@ -22,7 +22,6 @@ export const fetchPicturesWithQuery = async (query, page = 1) => {
 
   return {
     results: response.data.results,
-    total: response.data.total,
     total_pages: response.data.total_pages,
   };
 };

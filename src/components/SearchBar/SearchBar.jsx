@@ -1,11 +1,10 @@
+import { forwardRef } from "react";
 import { Formik, Form, Field } from "formik";
 import toast, { Toaster } from "react-hot-toast";
 import css from "./SearchBar.module.css";
 
-export default function SearchBar({ onSearch }) {
+const SearchBar = forwardRef(function SearchBarComponent({ onSearch }, ref) {
   const handleSubmit = (values, actions) => {
-    // console.log(values);
-
     if (!values.query) {
       toast.error("Enter a query before!");
       return;
@@ -16,7 +15,7 @@ export default function SearchBar({ onSearch }) {
   };
 
   return (
-    <header className={css.container}>
+    <header className={css.container} ref={ref}>
       <Formik initialValues={{ query: "" }} onSubmit={handleSubmit}>
         <Form className={css.wraper}>
           <Field
@@ -35,4 +34,6 @@ export default function SearchBar({ onSearch }) {
       </Formik>
     </header>
   );
-}
+});
+
+export default SearchBar;

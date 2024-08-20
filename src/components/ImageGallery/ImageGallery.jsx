@@ -21,19 +21,22 @@ export default function ImageGallery({ items, onImageClick, lastPictureRef }) {
             <li
               key={id}
               className={css.wrap}
-              onClick={() =>
-                onImageClick({
-                  imageUrl: regular,
-                  alt_description,
-                  description,
-                  likes,
-                  instagram_username,
-                  name,
-                })
-              }
               ref={isLast ? lastPictureRef : null}
             >
-              <ImageCard src={small} alt={alt_description} />
+              <ImageCard
+                src={small}
+                alt={alt_description}
+                onClick={() =>
+                  onImageClick({
+                    regular,
+                    alt_description,
+                    description,
+                    likes,
+                    instagram_username,
+                    name,
+                  })
+                }
+              />
             </li>
           );
         }

@@ -7,7 +7,7 @@ export default function ImageModal({ isOpen, onRequestClose, imageData }) {
   if (!imageData) return null;
 
   const {
-    imageUrl,
+    regular,
     alt_description,
     description,
     likes,
@@ -23,7 +23,7 @@ export default function ImageModal({ isOpen, onRequestClose, imageData }) {
       overlayClassName={css.overlay}
     >
       <div className={css.content}>
-        <img src={imageUrl} alt={alt_description} className={css.image} />
+        <img src={regular} alt={alt_description} className={css.image} />
         <div className={css.details}>
           <p>
             <strong>Author:</strong> {name}
